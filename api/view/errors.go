@@ -3,7 +3,7 @@ package view
 import (
 	"encoding/json"
 	"errors"
-	"github.com/rithikjain/CleanNotesApi/pkg"
+	"github.com/rithikjain/MongoNotes/pkg"
 	"net/http"
 )
 
