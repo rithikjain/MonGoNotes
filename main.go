@@ -4,7 +4,8 @@ import (
 	"context"
 	"fmt"
 	"github.com/joho/godotenv"
-	"go.mongodb.org/mongo-driver/bson"
+	"github.com/rithikjain/MongoNotes/api/handler"
+	"github.com/rithikjain/MongoNotes/pkg/note"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
@@ -53,6 +54,11 @@ func main() {
 	notesCollection := db.Collection("notes")
 
 	r := http.NewServeMux()
+
+	// Initialising repos and services
+	noteRepo := note.NewRepo(notesCollection)
+	noteSvc := note.NewService(noteRepo)
+	handler.MakeNoteHandler(r, noteSvc)
 
 	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)

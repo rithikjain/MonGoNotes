@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/rithikjain/MongoNotes/pkg"
 	"github.com/rithikjain/MongoNotes/pkg/entities"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -22,6 +23,7 @@ func NewRepo(coll *mongo.Collection) Repository {
 }
 
 func (r *repo) CreateNote(note *entities.Note) (*entities.Note, error) {
+	note.ID = primitive.NewObjectID()
 	_, err := r.Coll.InsertOne(context.Background(), note)
 	if err != nil {
 		return nil, pkg.ErrDatabase
