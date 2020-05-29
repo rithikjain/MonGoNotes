@@ -34,6 +34,27 @@ func createNote(svc note.Service) http.Handler {
 	})
 }
 
+func viewAllNotes(svc note.Service) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodGet {
+			view.Wrap(view.ErrMethodNotAllowed, w)
+			return
+		}
+		notes, err := svc.GetAllNotes()
+		if err != nil {
+			view.Wrap(err, w)
+			return
+		}
+		w.Header().Add("Content-Type", "application/json; charset=utf-8")
+		_ = json.NewEncoder(w).Encode(map[string]interface{}{
+			"message": "Notes fetched",
+			"status":  http.StatusOK,
+			"notes":   notes,
+		})
+	})
+}
+
 func MakeNoteHandler(r *http.ServeMux, svc note.Service) {
 	r.Handle("/api/notes/create", createNote(svc))
+	r.Handle("/api/notes", viewAllNotes(svc))
 }
