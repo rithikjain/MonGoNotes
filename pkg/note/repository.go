@@ -29,6 +29,7 @@ func NewRepo(coll *mongo.Collection) Repository {
 func (r *repo) CreateNote(note *entities.Note) (*entities.Note, error) {
 	note.ID = primitive.NewObjectID()
 	note.CreatedAt = primitive.NewDateTimeFromTime(time.Now())
+	note.UpdatedAt = note.CreatedAt
 	_, err := r.Coll.InsertOne(context.Background(), note)
 	if err != nil {
 		return nil, pkg.ErrDatabase
@@ -47,7 +48,6 @@ func (r *repo) GetAllNotes() (*[]entities.Note, error) {
 		_ = cursor.Decode(&note)
 		notes = append(notes, note)
 	}
-	defer cursor.Close(context.Background())
 
 	return &notes, nil
 }
