@@ -14,6 +14,8 @@ type Repository interface {
 	CreateNote(note *entities.Note) (*entities.Note, error)
 
 	GetAllNotes() (*[]entities.Note, error)
+
+	UpdateNote(note *entities.Note) error
 }
 
 type repo struct {
@@ -48,6 +50,14 @@ func (r *repo) GetAllNotes() (*[]entities.Note, error) {
 		_ = cursor.Decode(&note)
 		notes = append(notes, note)
 	}
-
 	return &notes, nil
+}
+
+func (r *repo) UpdateNote(note *entities.Note) error {
+	note.UpdatedAt = primitive.NewDateTimeFromTime(time.Now())
+	_, err := r.Coll.UpdateOne(context.Background(), bson.M{"_id": note.ID}, bson.M{"$set": note})
+	if err != nil {
+		return pkg.ErrDatabase
+	}
+	return nil
 }

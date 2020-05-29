@@ -6,6 +6,8 @@ type Service interface {
 	CreateNote(note *entities.Note) (*entities.Note, error)
 
 	GetAllNotes() (*[]entities.Note, error)
+
+	UpdateNote(note *entities.Note) error
 }
 
 type service struct {
@@ -24,4 +26,8 @@ func (s *service) CreateNote(note *entities.Note) (*entities.Note, error) {
 
 func (s *service) GetAllNotes() (*[]entities.Note, error) {
 	return s.repo.GetAllNotes()
+}
+
+func (s *service) UpdateNote(note *entities.Note) error {
+	return s.repo.UpdateNote(note)
 }
