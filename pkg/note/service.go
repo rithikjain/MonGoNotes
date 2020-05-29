@@ -8,6 +8,8 @@ type Service interface {
 	GetAllNotes() (*[]entities.Note, error)
 
 	UpdateNote(note *entities.Note) error
+
+	DeleteNote(id string) error
 }
 
 type service struct {
@@ -30,4 +32,8 @@ func (s *service) GetAllNotes() (*[]entities.Note, error) {
 
 func (s *service) UpdateNote(note *entities.Note) error {
 	return s.repo.UpdateNote(note)
+}
+
+func (s *service) DeleteNote(id string) error {
+	return s.repo.DeleteNote(id)
 }

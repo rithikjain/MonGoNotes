@@ -79,8 +79,29 @@ func updateNote(svc note.Service) http.Handler {
 	})
 }
 
+func deleteNote(svc note.Service) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodDelete {
+			view.Wrap(view.ErrMethodNotAllowed, w)
+			return
+		}
+		id := r.URL.Query().Get("id")
+		err := svc.DeleteNote(id)
+		if err != nil {
+			view.Wrap(err, w)
+			return
+		}
+		w.Header().Add("Content-Type", "application/json; charset=utf-8")
+		_ = json.NewEncoder(w).Encode(map[string]interface{}{
+			"message": "Note Deleted",
+			"status":  http.StatusNoContent,
+		})
+	})
+}
+
 func MakeNoteHandler(r *http.ServeMux, svc note.Service) {
 	r.Handle("/api/notes/create", createNote(svc))
 	r.Handle("/api/notes", viewAllNotes(svc))
 	r.Handle("/api/notes/update", updateNote(svc))
+	r.Handle("/api/notes/delete", deleteNote(svc))
 }
