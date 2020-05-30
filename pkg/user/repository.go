@@ -4,9 +4,9 @@ import (
 	"context"
 	"github.com/rithikjain/MongoNotes/pkg"
 	"github.com/rithikjain/MongoNotes/pkg/entities"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
-	"gopkg.in/mgo.v2/bson"
 )
 
 type Repository interface {
@@ -23,7 +23,7 @@ type repo struct {
 	Coll *mongo.Collection
 }
 
-func NewRepo(coll *mongo.Collection) {
+func NewRepo(coll *mongo.Collection) Repository {
 	return &repo{
 		Coll: coll,
 	}
