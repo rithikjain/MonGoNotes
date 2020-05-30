@@ -6,6 +6,7 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/rithikjain/MongoNotes/api/handler"
 	"github.com/rithikjain/MongoNotes/pkg/note"
+	"github.com/rithikjain/MongoNotes/pkg/user"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
@@ -60,6 +61,9 @@ func main() {
 	noteRepo := note.NewRepo(notesCollection)
 	noteSvc := note.NewService(noteRepo)
 	handler.MakeNoteHandler(r, noteSvc)
+
+	userRepo := user.NewRepo(usersCollection)
+	userSvc := user.NewService(userRepo)
 
 	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
