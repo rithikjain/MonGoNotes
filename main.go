@@ -64,6 +64,7 @@ func main() {
 
 	userRepo := user.NewRepo(usersCollection)
 	userSvc := user.NewService(userRepo)
+	handler.MakeUserHandler(r, userSvc)
 
 	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)

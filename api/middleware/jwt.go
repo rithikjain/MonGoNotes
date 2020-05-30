@@ -5,6 +5,7 @@ import (
 	jwtmiddleware "github.com/auth0/go-jwt-middleware"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/rithikjain/MongoNotes/api/view"
+	"github.com/rithikjain/MongoNotes/pkg"
 	"log"
 	"net/http"
 	"os"

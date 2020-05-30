@@ -1,6 +1,7 @@
 package user
 
 import (
+	"fmt"
 	"github.com/rithikjain/MongoNotes/pkg"
 	"github.com/rithikjain/MongoNotes/pkg/entities"
 	"golang.org/x/crypto/bcrypt"
@@ -63,6 +64,7 @@ func (s *service) Login(email, password string) (*entities.User, error) {
 	if err != nil {
 		return nil, err
 	}
+	fmt.Println(user.Password)
 	if CheckPasswordHash(password, user.Password) {
 		return us, nil
 	}

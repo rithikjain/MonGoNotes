@@ -2,6 +2,7 @@ package user
 
 import (
 	"context"
+	"fmt"
 	"github.com/rithikjain/MongoNotes/pkg"
 	"github.com/rithikjain/MongoNotes/pkg/entities"
 	"go.mongodb.org/mongo-driver/bson"
@@ -60,10 +61,12 @@ func (r *repo) DoesEmailExist(email string) (bool, error) {
 }
 
 func (r *repo) FindByEmail(email string) (*entities.User, error) {
+	temp := map[string]interface{}{}
 	user := &entities.User{}
-	err := r.Coll.FindOne(context.Background(), bson.M{"email": email}).Decode(user)
+	err := r.Coll.FindOne(context.Background(), bson.M{"email": email}).Decode(&temp)
 	if err != nil {
 		return nil, pkg.ErrDatabase
 	}
+	fmt.Println(temp)
 	return user, nil
 }
