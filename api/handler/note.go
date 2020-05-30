@@ -20,16 +20,15 @@ func createNote(svc note.Service) http.Handler {
 			view.Wrap(err, w)
 			return
 		}
-		n, err := svc.CreateNote(note)
+		_, err = svc.CreateNote(note)
 		if err != nil {
 			view.Wrap(err, w)
 			return
 		}
 		w.Header().Add("Content-Type", "application/json; charset=utf-8")
 		_ = json.NewEncoder(w).Encode(map[string]interface{}{
-			"message": "Note create",
+			"message": "Note created",
 			"status":  http.StatusOK,
-			"note":    n,
 		})
 	})
 }

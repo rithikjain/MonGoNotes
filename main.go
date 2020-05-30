@@ -52,6 +52,7 @@ func main() {
 	fmt.Println("Connected to DB...")
 
 	notesCollection := db.Collection("notes")
+	usersCollection := db.Collection("users")
 
 	r := http.NewServeMux()
 
